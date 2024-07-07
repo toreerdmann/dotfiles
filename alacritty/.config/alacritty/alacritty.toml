@@ -1,3 +1,17 @@
+#[shell]
+#program = "/usr/bin/tmux"
+#args = ["-u"] # force UTF-8 in tmux
+
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"		# contains all characters used as separators for "semantic words" in Alacritty.
+save_to_clipboard = true 				# When set to `true`, selected text will be copied to the primary clipboard.
+
+[keyboard]
+bindings = [
+{ key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
+{ key = "L", mods = "Control|Shift", chars = "l" },
+]
+
 
 [window]
 opacity = 0.95
