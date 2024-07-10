@@ -17,7 +17,7 @@ bindings = [
 opacity = 0.95
 blur = true
 dynamic_padding = false
-decorations = "none"
+decorations = "None" # "Full" | "None" | "Transparent" | "Buttonless"
 decorations_theme_variant = "Dark" # "Light"
 
 [window.padding]
