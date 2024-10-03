@@ -103,10 +103,8 @@ export LANG=en_US.UTF-8
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# setup fzf
-source <(fzf --zsh)
 
-alias quarto="~/quarto-cli/package/dist/bin/quarto"
+# alias quarto="~/quarto-cli/package/dist/bin/quarto"
 
 #alias ff="nvim \$(fzf --preview='cat {}')"
 #alias fd="cd ~ && cd \$(find * -type d | fzf)"
@@ -117,7 +115,11 @@ function fd() {
 	cd ~ && cd $(find * -type d | fzf)
 }
 
-alias quarto="~/quarto-cli/package/dist/bin/quarto"
+function nvimq() {
+	NVIM_APPNAME="nvim_quarto" nvim
+}
+#alias quarto="~/quarto-cli/package/dist/bin/quarto"
+#eval "$(nodenv init -)"
 
-eval "$(nodenv init -)"
-
+# setup fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
