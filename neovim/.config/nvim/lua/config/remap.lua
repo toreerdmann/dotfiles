@@ -10,6 +10,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set('n', ',n', ':bn<cr>')
 vim.keymap.set('n', ',b', ':bp<cr>')
 vim.keymap.set('n', ',d', ':bd<cr>')
+vim.keymap.set('n', ',,', ':bp<cr>')
 
 vim.keymap.set('v', "'y", '"+y')
 
