@@ -86,6 +86,9 @@ vim.keymap.set('n', '<C-j>', function()
   if vim.bo.filetype == 'python' then
     vim.cmd ':w'
     vim.cmd '!python3 %'
+  elseif vim.bo.filetype == 'c' then
+    vim.cmd ':w'
+    vim.cmd '!cc % && echo && ./a.out'
   elseif vim.bo.filetype == 'cpp' then
     vim.cmd ':w'
     vim.cmd '!g++ -std=c++11 % && ./a.out'

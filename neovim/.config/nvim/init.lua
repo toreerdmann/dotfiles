@@ -180,6 +180,20 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
 
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim', -- required
+      'sindrets/diffview.nvim', -- optional - Diff integration
+
+      -- Only one of these is needed.
+      'nvim-telescope/telescope.nvim', -- optional
+      'ibhagwan/fzf-lua', -- optional
+      'echasnovski/mini.pick', -- optional
+    },
+    config = true,
+  },
+
   { 'JuliaEditorSupport/julia-vim' },
 
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
@@ -236,21 +250,35 @@ require('lazy').setup({
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
       require('which-key').setup()
+      local wk = require 'which-key'
 
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+      wk.add {
+        { '<leader>s', group = 'search' }, -- group
       }
-      -- visual mode
-      require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
-      }, { mode = 'v' })
+
+      -- -- -- Document existing key chains
+      -- -- require('which-key').register {
+      -- --   { '<leader>c', group = '[C]ode' },
+      -- --   { '<leader>c_', hidden = true },
+      -- --   { '<leader>d', group = '[D]ocument' },
+      -- --   { '<leader>d_', hidden = true },
+      -- --   { '<leader>h', group = 'Git [H]unk' },
+      -- --   { '<leader>h_', hidden = true },
+      -- --   { '<leader>r', group = '[R]ename' },
+      -- --   { '<leader>r_', hiddken = true },
+      -- --   { '<leader>s', group = '[S]earch' },
+      -- --   { '<leader>s_', hidden = true },
+      -- --   { '<leader>t', group = '[T]oggle' },
+      -- --   { '<leader>t_', hidden = true },
+      -- --   { '<leader>w', group = '[W]orkspace' },
+      -- --   { '<leader>w_', hidden = true },
+      -- -- }
+      -- --
+      -- -- visual mode
+      -- require('which-key').register {
+      --   { '<leader>h', desc = 'Git [H]unk', mode = 'v' },
+      -- }
+      --
     end,
   },
 
@@ -343,7 +371,7 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      --vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -351,6 +379,14 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+
+      vim.keymap.set('n', '<leader>sf', function()
+        local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
+        -- not sure abt this
+        git_root = builtin.find_files {
+          cwd = git_root,
+        }
+      end, { desc = '[/] [S]earch [Files] in current git repo' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -536,7 +572,7 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -759,22 +795,96 @@ require('lazy').setup({
   --     vim.cmd.hi 'Comment gui=none'
   --   end,
   -- },
+
+  -- {
+  --   'RRethy/base16-nvim',
+  --   init = function()
+  --     vim.cmd 'colorscheme base16-default-dark'
+  --   end,
+  --   config = function()
+  --     vim.opt.termguicolors = true
+  --     require('base16-colorscheme').with_config {
+  --       telescope = true,
+  --       indentblankline = true,
+  --       notify = true,
+  --       ts_rainbow = true,
+  --       cmp = true,
+  --       illuminate = true,
+  --       dapui = true,
+  --     }
+  --   end,
+  -- },
+
   {
-    'RRethy/base16-nvim',
-    init = function()
-      vim.cmd 'colorscheme base16-default-dark'
-    end,
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
     config = function()
-      vim.opt.termguicolors = true
-      require('base16-colorscheme').with_config {
-        telescope = true,
-        indentblankline = true,
-        notify = true,
-        ts_rainbow = true,
-        cmp = true,
-        illuminate = true,
-        dapui = true,
+      require('catppuccin').setup {
+        flavour = 'auto', -- latte, frappe, macchiato, mocha
+        background = { -- :h background
+          light = 'latte',
+          dark = 'mocha',
+        },
+        transparent_background = false, -- disables setting the background color.
+        show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+        term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+        dim_inactive = {
+          enabled = false, -- dims the background color of inactive window
+          shade = 'dark',
+          percentage = 0.15, -- percentage of the shade to apply to the inactive window
+        },
+        no_italic = false, -- Force no italic
+        no_bold = false, -- Force no bold
+        no_underline = false, -- Force no underline
+        styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+          comments = { 'italic' }, -- Change the style of comments
+          conditionals = { 'italic' },
+          loops = {},
+          functions = {},
+          keywords = {},
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+          operators = {},
+          -- miscs = {}, -- Uncomment to turn off hard-coded styles
+        },
+        color_overrides = {},
+        custom_highlights = {},
+        default_integrations = true,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = true,
+          treesitter = true,
+          notify = false,
+          mini = {
+            enabled = true,
+            indentscope_color = '',
+          },
+          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+        },
       }
+
+      require('catppuccin').setup {
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = true,
+          treesitter = true,
+          notify = false,
+          mini = {
+            enabled = true,
+            indentscope_color = '',
+          },
+        },
+      }
+
+      -- setup must be called before loading
+      vim.cmd.colorscheme 'catppuccin-mocha'
     end,
   },
 
@@ -913,7 +1023,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
