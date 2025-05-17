@@ -12,7 +12,7 @@ vim.keymap.set('n', ',b', ':bp<cr>')
 vim.keymap.set('n', ',d', ':bd<cr>')
 vim.keymap.set('n', ',,', ':bp<cr>')
 
-vim.keymap.set('v', "'y", '"+y')
+-- vim.keymap.set('v', "'y", '"+y')
 
 vim.keymap.set('i', 'jj', '<Esc>', { silent = true })
 
@@ -20,6 +20,19 @@ vim.keymap.set('i', '<C-f>', '<C-o>l')
 vim.keymap.set('i', '<C-b>', '<C-o>h')
 vim.keymap.set('i', '<C-n>', '<C-o>j')
 vim.keymap.set('i', '<C-p>', '<C-o>k')
+
+vim.keymap.set('t', '<A-h>', '<C-\\><C-N><C-w>h')
+vim.keymap.set('t', '<A-j>', '<C-\\><C-N><C-w>j')
+vim.keymap.set('t', '<A-k>', '<C-\\<C-N><C-w>k')
+vim.keymap.set('t', '<A-l>', '<C-\\<C-N><C-w>l')
+vim.keymap.set('i', '<A-h>', '<C-\\<C-N><C-w>h')
+vim.keymap.set('i', '<A-j>', '<C-\\<C-N><C-w>j')
+vim.keymap.set('i', '<A-k>', '<C-\\<C-N><C-w>k')
+vim.keymap.set('i', '<A-l>', '<C-\\<C-N><C-w>l')
+vim.keymap.set('n', '<A-h>', '<C-w>h')
+vim.keymap.set('n', '<A-j>', '<C-w>j')
+vim.keymap.set('n', '<A-k>', '<C-w>k')
+vim.keymap.set('n', '<A-l>', '<C-w>l')
 
 --vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- vim.keymap.set("x", "<leader>p", "\"_dP")
