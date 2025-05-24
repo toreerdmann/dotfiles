@@ -7,10 +7,10 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set('n', ',n', ':bn<cr>')
-vim.keymap.set('n', ',b', ':bp<cr>')
-vim.keymap.set('n', ',d', ':bd<cr>')
-vim.keymap.set('n', ',,', ':bp<cr>')
+vim.keymap.set('n', '<C-n>', ':bn<cr>')
+vim.keymap.set('n', '<C-p>', ':bp<cr>')
+-- vim.keymap.set('n', ',d', ':bd<cr>')
+-- vim.keymap.set('n', ',,', ':bp<cr>')
 
 -- vim.keymap.set('v', "'y", '"+y')
 
@@ -36,3 +36,9 @@ vim.keymap.set('n', '<A-l>', '<C-w>l')
 
 --vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- vim.keymap.set("x", "<leader>p", "\"_dP")
+
+-- vim.keymap.set('n', '<leader>o', 'normal :Oil %:p:h')
+
+vim.keymap.set('n', '<leader>o', function()
+  vim.cmd ':Oil %:p:h'
+end, { desc = 'Open oil in parent folder of current buffer.' })

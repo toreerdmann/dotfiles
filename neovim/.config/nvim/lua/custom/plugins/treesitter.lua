@@ -8,7 +8,7 @@ return { -- Highlight, edit, and navigate code
     highlight = {
       enable = true,
       -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-      additional_vim_regex_highlighting = false
+      additional_vim_regex_highlighting = false,
     },
     indent = { enable = true, disable = { 'ruby' } },
     incremental_selection = {
@@ -77,4 +77,3 @@ return { -- Highlight, edit, and navigate code
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   end,
 }
-

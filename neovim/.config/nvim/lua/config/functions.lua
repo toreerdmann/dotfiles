@@ -2,21 +2,21 @@
 --  this is where I have my custom fns for evaluating code
 --
 
-vim.keymap.set('n', '<leader>o', function()
-  -- if vim.bo.filetype == 'julia' or vim.bo.filetype == 'python' or vim.bo.filetype == 'quarto' then
-  --print('Hello')
-  vim.cmd 'silent! normal vip"ay'
-  vim.cmd 'silent! redir! > buffer.txt'
-  vim.cmd 'silent! echo @a'
-  vim.cmd 'silent! redir END'
-  vim.fn.system 'tmux load-buffer buffer.txt'
-  vim.fn.system 'tmux select-pane -R'
-  vim.fn.system 'tmux paste-buffer'
-  vim.fn.system 'rm buffer.txt'
-  --else
-  --  print 'Not a julia or python file.'
-  --end
-end, { desc = 'Send paragraph to REPL and go over' })
+-- vim.keymap.set('n', '<leader>o', function()
+--   -- if vim.bo.filetype == 'julia' or vim.bo.filetype == 'python' or vim.bo.filetype == 'quarto' then
+--   --print('Hello')
+--   vim.cmd 'silent! normal vip"ay'
+--   vim.cmd 'silent! redir! > buffer.txt'
+--   vim.cmd 'silent! echo @a'
+--   vim.cmd 'silent! redir END'
+--   vim.fn.system 'tmux load-buffer buffer.txt'
+--   vim.fn.system 'tmux select-pane -R'
+--   vim.fn.system 'tmux paste-buffer'
+--   vim.fn.system 'rm buffer.txt'
+--   --else
+--   --  print 'Not a julia or python file.'
+--   --end
+-- end, { desc = 'Send paragraph to REPL and go over' })
 
 -- vim.keymap.set('n', '<leader><CR>', function()
 --   -- if vim.bo.filetype == 'julia' or vim.bo.filetype == 'python' or vim.bo.filetype == 'quarto' or vim.bo.filetype == 'sh' then
@@ -35,7 +35,6 @@ end, { desc = 'Send paragraph to REPL and go over' })
 --   --  print 'Not a julia or python file.'
 --   --end
 -- end, { desc = 'Send line to REPL' })
-
 
 -- eval from beginning
 vim.keymap.set('n', '<leader>B', function()
@@ -181,7 +180,6 @@ end
 -- Create a command to call the function
 vim.api.nvim_create_user_command('WorkoutPlan', CreateWorkoutTemplate, {})
 
-
 function HasRightSplit()
   local wins = vim.api.nvim_tabpage_list_wins(0)
   local curr_win = vim.api.nvim_get_current_win()
@@ -190,7 +188,7 @@ function HasRightSplit()
   for _, win in ipairs(wins) do
     if win ~= curr_win then
       local pos = vim.api.nvim_win_get_position(win)
-      if pos[2] > curr_pos[2] then  -- Column position is greater (to the right)
+      if pos[2] > curr_pos[2] then -- Column position is greater (to the right)
         return true
       end
     end
@@ -202,19 +200,19 @@ function CopyParagraphToTerminal()
   if HasRightSplit() then
     -- Save current position
     local curr_win = vim.api.nvim_get_current_win()
-    
+
     -- Find the window to the right
     local wins = vim.api.nvim_tabpage_list_wins(0)
     local curr_pos = vim.api.nvim_win_get_position(curr_win)
-    
+
     for _, win in ipairs(wins) do
       if win ~= curr_win then
         local pos = vim.api.nvim_win_get_position(win)
-        if pos[2] > curr_pos[2] then  -- Window is to the right
+        if pos[2] > curr_pos[2] then -- Window is to the right
           -- Go to that window
           vim.api.nvim_set_current_win(win)
           -- Paste the text
-          vim.cmd('normal! pa')
+          vim.cmd 'normal! pa'
           --vim.cmd('normal! a')
           -- vim.cmd('normal! <CR><CR>')
           --vim.cmd('call feedkeys("\r")')
@@ -229,7 +227,7 @@ function CopyParagraphToTerminal()
           vim.defer_fn(function()
             -- Switch back to original window
             vim.api.nvim_set_current_win(curr_win)
-          end, 200)  -- 100ms delay
+          end, 200) -- 100ms delay
           break
         end
       end
@@ -256,7 +254,7 @@ function SendToTerminal(text)
     local term_buf = vim.api.nvim_win_get_buf(term_win)
     local job_id = vim.b[term_buf].terminal_job_id
     if job_id then
-      vim.fn.chansend(job_id, "%paste\n")
+      vim.fn.chansend(job_id, '%paste\n')
       -- Send text followed by Enter
       -- vim.fn.chansend(job_id, text .. "\n")
       -- return true
@@ -300,7 +298,6 @@ end
 --   end
 -- end
 
-
 -- vim.keymap.set('n', '<leader><CR>', function()
 --   -- if vim.bo.filetype == 'julia' or vim.bo.filetype == 'python' or vim.bo.filetype == 'quarto' or vim.bo.filetype == 'sh' then
 --   --print('Hello')
@@ -329,12 +326,10 @@ end
 --   end
 -- end, { desc = 'Send line to REPL' })
 
-
-
 function SendCode()
   -- if vim.bo.filetype == 'julia' or vim.bo.filetype == 'python' or vim.bo.filetype == 'quarto' then
   --print('Hello')
-  if vim.env.TMUX ~=nil then
+  if vim.env.TMUX ~= nil then
     vim.cmd 'silent! normal vip"ay'
     vim.cmd 'silent! redir! > buffer.txt'
     vim.cmd 'silent! echo @a'
@@ -346,19 +341,20 @@ function SendCode()
     vim.fn.system 'rm buffer.txt'
   else
     if not HasRightSplit() then
-      vim.cmd('vsplit')
-      vim.cmd('terminal')
-      vim.cmd('startinsert')
+      vim.cmd 'vsplit'
+      vim.cmd 'terminal'
+      vim.cmd 'startinsert'
     else
       local mode = vim.api.nvim_get_mode().mode
-      print(mode)
-      if mode:match('^V') then
-        print("using y")
-        vim.cmd('normal! y')
+      -- print(mode)
+      -- local testkey = vim.fn.getchar()
+      if mode:match 'v' then
+        print 'using y'
+        vim.cmd 'normal! y'
       else
-        print("usig yip")
+        print 'using yip'
         -- Yank current paragraph
-        vim.cmd('normal! yip')
+        vim.cmd 'normal! yip'
       end
       CopyParagraphToTerminal()
       -- vim.cmd 'silent! normal vip"ay'
@@ -367,6 +363,16 @@ function SendCode()
     end
   end
 end
+
+-- function Get_user_input()
+--   local user_text = vim.fn.input 'Enter some text: '
+--   print('You entered: ' .. user_text)
+-- end
+-- -- we can create functions callable like this
+-- vim.api.nvim_create_user_command('Test', Get_user_input, {
+--   nargs = 0, -- optional argument
+--   desc = 'Get some input',
+-- })
 
 vim.keymap.set('v', '<leader><CR>', function()
   SendCode()
@@ -380,75 +386,19 @@ vim.keymap.set('n', '<leader>p', function()
   SendCode()
 end, { desc = 'Send paragraph to REPL' })
 
--- -- Function to visually select the current function using Treesitter
--- function SelectCurrentFunction()
---   -- Ensure treesitter is available
---   if not pcall(require, 'nvim-treesitter') then
---     print("Error: nvim-treesitter is not installed")
---     return
---   end
---
---   -- Get the current node at cursor position
---   local ts_utils = require('nvim-treesitter.ts_utils')
---   local current_node = ts_utils.get_node_at_cursor()
---
---   if not current_node then
---     print("No treesitter node found at cursor")
---     return
---   end
---
---   -- Walk up the tree to find a function definition node
---   local function_node = current_node
---
---   while function_node do
---     local node_type = function_node:type()
---
---     -- Check for common function node types across languages
---     -- Add more types based on the languages you use
---     if node_type:match("function") or 
---       node_type:match("method") or 
---       node_type == "function_definition" or
---       node_type == "method_definition" or
---       node_type == "function_declaration" or
---       node_type == "method_declaration" then
---       break
---     end
---
---     function_node = function_node:parent()
---   end
---
---   if not function_node then
---     print("No function found at cursor position")
---     return
---   end
---
---   -- Get function range
---   local start_row, start_col, end_row, end_col = function_node:range()
---
---   -- Set visual selection
---   vim.fn.cursor(start_row + 1, start_col + 1)
---   vim.cmd("normal! v")
---   vim.fn.cursor(end_row + 1, end_col + 1)
--- end
---
--- -- Map the function to a key combination (adjust as needed)
--- vim.api.nvim_set_keymap('n', '<leader>vf', 
---   '<cmd>lua SelectCurrentFunction()<CR>', 
---   {noremap = true, silent = true})
-
 function SelectCurrentFunctionWithDecorators()
   -- Ensure treesitter is available
   if not pcall(require, 'nvim-treesitter') then
-    print("Error: nvim-treesitter is not installed")
+    print 'Error: nvim-treesitter is not installed'
     return
   end
 
   -- Get the current node at cursor position
-  local ts_utils = require('nvim-treesitter.ts_utils')
+  local ts_utils = require 'nvim-treesitter.ts_utils'
   local current_node = ts_utils.get_node_at_cursor()
 
   if not current_node then
-    print("No treesitter node found at cursor")
+    print 'No treesitter node found at cursor'
     return
   end
 
@@ -459,12 +409,14 @@ function SelectCurrentFunctionWithDecorators()
     local node_type = function_node:type()
 
     -- Check for common function node types across languages
-    if node_type:match("function") or 
-      node_type:match("method") or 
-      node_type == "function_definition" or
-      node_type == "method_definition" or
-      node_type == "function_declaration" or
-      node_type == "method_declaration" then
+    if
+      node_type:match 'function'
+      or node_type:match 'method'
+      or node_type == 'function_definition'
+      or node_type == 'method_definition'
+      or node_type == 'function_declaration'
+      or node_type == 'method_declaration'
+    then
       break
     end
 
@@ -472,7 +424,7 @@ function SelectCurrentFunctionWithDecorators()
   end
 
   if not function_node then
-    print("No function found at cursor position")
+    print 'No function found at cursor position'
     return
   end
 
@@ -487,10 +439,7 @@ function SelectCurrentFunctionWithDecorators()
   while prev_sibling do
     local node_type = prev_sibling:type()
 
-    if node_type == "decorator" or 
-      node_type == "decorator_list" or 
-      node_type == "annotation" or
-      node_type == "decorator_declaration" then
+    if node_type == 'decorator' or node_type == 'decorator_list' or node_type == 'annotation' or node_type == 'decorator_declaration' then
       local dec_start, _, _, _ = prev_sibling:range()
       decorator_start_row = dec_start
       prev_sibling = prev_sibling:prev_sibling()
@@ -501,12 +450,170 @@ function SelectCurrentFunctionWithDecorators()
   end
 
   -- Set visual selection including decorators if found
-  vim.fn.cursor(decorator_start_row + 1, 1)  -- Start from beginning of line for decorators
-  vim.cmd("normal! v")
+  vim.fn.cursor(decorator_start_row + 1, 1) -- Start from beginning of line for decorators
+  vim.cmd 'normal! v'
   vim.fn.cursor(end_row + 1, end_col + 1)
 end
 
 -- Map the function to a key combination
-vim.api.nvim_set_keymap('n', '<leader>vf', 
-  '<cmd>lua SelectCurrentFunctionWithDecorators()<CR>', 
-  {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>vf', '<cmd>lua SelectCurrentFunctionWithDecorators()<CR>', { noremap = true, silent = true })
+
+-- -- Add this to your Neovim config (init.lua or a separate plugin file)
+--
+-- local function get_prefix_suffix()
+--   -- Get current buffer and cursor position
+--   local buf = vim.api.nvim_get_current_buf()
+--   local cursor = vim.api.nvim_win_get_cursor(0)
+--   local row = cursor[1] - 1 -- Convert to 0-based indexing
+--   local col = cursor[2]
+--
+--   -- Get all lines in the buffer
+--   local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+--
+--   -- Build prefix (everything before cursor)
+--   local prefix_lines = {}
+--
+--   -- Add all lines before current line
+--   for i = 1, row do
+--     table.insert(prefix_lines, lines[i])
+--   end
+--
+--   -- Add part of current line before cursor
+--   if lines[row + 1] then
+--     local current_line = lines[row + 1]
+--     local line_prefix = string.sub(current_line, 1, col)
+--     table.insert(prefix_lines, line_prefix)
+--   end
+--
+--   -- Build suffix (everything after cursor)
+--   local suffix_lines = {}
+--
+--   -- Add remaining part of current line after cursor
+--   if lines[row + 1] then
+--     local current_line = lines[row + 1]
+--     local line_suffix = string.sub(current_line, col + 1)
+--     table.insert(suffix_lines, line_suffix)
+--   end
+--
+--   -- Add all lines after current line
+--   for i = row + 2, #lines do
+--     table.insert(suffix_lines, lines[i])
+--   end
+--
+--   -- Join lines with newlines
+--   local prefix = table.concat(prefix_lines, '\n')
+--   local suffix = table.concat(suffix_lines, '\n')
+--
+--   return prefix, suffix
+-- end
+--
+-- -- local function call_python_completion()
+-- --   local prefix, suffix = get_prefix_suffix()
+-- --
+-- --   -- Escape strings for shell command
+-- --   local function shell_escape(str)
+-- --     return "'" .. str:gsub("'", "'\"'\"'") .. "'"
+-- --   end
+-- --
+-- --   -- Build the command to call your Python script
+-- --   local cmd = string.format('python3 /path/to/your/completion_script.py --prefix %s --suffix %s', shell_escape(prefix), shell_escape(suffix))
+-- --
+-- --   -- Execute the command and capture output
+-- --   local handle = io.popen(cmd)
+-- --   if not handle then
+-- --     vim.notify('Failed to execute Python script', vim.log.levels.ERROR)
+-- --     return
+-- --   end
+-- --
+-- --   local result = handle:read '*a'
+-- --   handle:close()
+-- --
+-- --   -- Remove trailing newline if present
+-- --   result = result:gsub('\n$', '')
+-- --
+-- --   if result and result ~= '' then
+-- --     -- Insert the completion at cursor position
+-- --     local cursor = vim.api.nvim_win_get_cursor(0)
+-- --     local row = cursor[1] - 1
+-- --     local col = cursor[2]
+-- --
+-- --     -- Split result into lines
+-- --     local completion_lines = vim.split(result, '\n', { plain = true })
+-- --
+-- --     if #completion_lines == 1 then
+-- --       -- Single line completion
+-- --       vim.api.nvim_buf_set_text(0, row, col, row, col, completion_lines)
+-- --     else
+-- --       -- Multi-line completion
+-- --       vim.api.nvim_buf_set_text(0, row, col, row, col, completion_lines)
+-- --     end
+-- --
+-- --     -- Move cursor to end of inserted text
+-- --     local new_row = row + #completion_lines - 1
+-- --     local new_col = col + #completion_lines[#completion_lines]
+-- --     if #completion_lines > 1 then
+-- --       new_col = #completion_lines[#completion_lines]
+-- --     end
+-- --     vim.api.nvim_win_set_cursor(0, { new_row + 1, new_col })
+-- --   else
+-- --     vim.notify('No completion received', vim.log.levels.WARN)
+-- --   end
+-- -- end
+--
+-- -- Alternative version using vim.system (Neovim 0.8+)
+-- local function call_python_completion_modern()
+--   local prefix, suffix = get_prefix_suffix()
+--
+--   -- Call Python script using vim.system
+--   vim.system({
+--     '/Users/tore.erdmann/ollama_venv/bin/python',
+--     '/Users/tore.erdmann/call_codegemma_completion.py',
+--     prefix,
+--     suffix,
+--   }, {
+--     text = true,
+--   }, function(obj)
+--     if obj.code == 0 and obj.stdout then
+--       local result = obj.stdout:gsub('\n$', '')
+--
+--       -- Schedule the insertion to run in the main thread
+--       vim.schedule(function()
+--         if result and result ~= '' then
+--           local cursor = vim.api.nvim_win_get_cursor(0)
+--           local row = cursor[1] - 1
+--           local col = cursor[2]
+--
+--           local completion_lines = vim.split(result, '\n', { plain = true })
+--           vim.api.nvim_buf_set_text(0, row, col, row, col, completion_lines)
+--
+--           -- Move cursor to end of inserted text
+--           local new_row = row + #completion_lines - 1
+--           local new_col = col + #completion_lines[#completion_lines]
+--           if #completion_lines > 1 then
+--             new_col = #completion_lines[#completion_lines]
+--           end
+--           vim.api.nvim_win_set_cursor(0, { new_row + 1, new_col })
+--         end
+--       end)
+--     else
+--       vim.schedule(function()
+--         vim.notify('Python completion failed: ' .. (obj.stderr or 'Unknown error'), vim.log.levels.ERROR)
+--       end)
+--     end
+--   end)
+-- end
+--
+-- -- Create user commands
+-- --vim.api.nvim_create_user_command('FillMiddle', call_python_completion, {})
+-- vim.api.nvim_create_user_command('FillMiddleAsync', call_python_completion_modern, {})
+--
+-- -- Create keybindings (optional)
+-- vim.keymap.set('n', '<leader>fc', call_python_completion_modern, { desc = 'Fill-in-the-middle completion' })
+-- -- vim.keymap.set('i', '<C-f>', call_python_completion, { desc = 'Fill-in-the-middle completion' })
+--
+-- -- Export functions for use in other parts of your config
+-- return {
+--   get_prefix_suffix = get_prefix_suffix,
+--   call_python_completion = call_python_completion,
+--   call_python_completion_modern = call_python_completion_modern,
+-- }
