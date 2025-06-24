@@ -9,7 +9,8 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 vim.keymap.set('n', '<C-n>', ':bn<cr>')
 vim.keymap.set('n', '<C-p>', ':bp<cr>')
--- vim.keymap.set('n', ',d', ':bd<cr>')
+vim.keymap.set('n', '<leader>bd', ':bp | bd# <cr>', { desc = 'Close current buffer' })
+
 -- vim.keymap.set('n', ',,', ':bp<cr>')
 
 -- vim.keymap.set('v', "'y", '"+y')

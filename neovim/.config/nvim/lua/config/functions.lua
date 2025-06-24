@@ -346,9 +346,9 @@ function SendCode()
       vim.cmd 'startinsert'
     else
       local mode = vim.api.nvim_get_mode().mode
-      -- print(mode)
-      -- local testkey = vim.fn.getchar()
-      if mode:match 'v' then
+      --print(mode)
+      --local testkey = vim.fn.getchar()
+      if mode:match 'v' or mode:match 'V' then
         print 'using y'
         vim.cmd 'normal! y'
       else

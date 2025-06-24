@@ -187,6 +187,13 @@ vim.api.nvim_create_autocmd('FileType', {
 require('lazy').setup({
 
   {
+    'stevanmilic/nvim-lspimport',
+    config = function()
+      vim.keymap.set('n', '<leader>a', require('lspimport').import, { noremap = true })
+    end,
+  },
+
+  {
     'NeogitOrg/neogit',
     dependencies = {
       'nvim-lua/plenary.nvim', -- required
