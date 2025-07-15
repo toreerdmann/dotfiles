@@ -383,8 +383,28 @@ vim.keymap.set('n', '<leader><CR>', function()
 end, { desc = 'Send paragraph to REPL' })
 
 vim.keymap.set('n', '<leader>p', function()
-  SendCode()
-end, { desc = 'Send paragraph to REPL' })
+  if not HasRightSplit() then
+    vim.cmd 'vsplit'
+    vim.cmd 'terminal'
+    vim.cmd 'startinsert'
+  else
+    print 'using yiW'
+    vim.cmd 'normal! yiW'
+  end
+  CopyParagraphToTerminal()
+end, { desc = 'Send word to REPL' })
+
+vim.keymap.set('n', '<leader>l', function()
+  if not HasRightSplit() then
+    vim.cmd 'vsplit'
+    vim.cmd 'terminal'
+    vim.cmd 'startinsert'
+  else
+    print 'using yy'
+    vim.cmd 'normal! yy'
+  end
+  CopyParagraphToTerminal()
+end, { desc = 'Send line to REPL' })
 
 function SelectCurrentFunctionWithDecorators()
   -- Ensure treesitter is available
