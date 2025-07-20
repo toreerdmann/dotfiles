@@ -28,6 +28,7 @@ vim.g.have_nerd_font = true
 require 'config.set'
 require 'config.remap'
 require 'config.functions'
+require 'config.function_compile'
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`

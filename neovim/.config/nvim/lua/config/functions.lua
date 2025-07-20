@@ -2,40 +2,6 @@
 --  this is where I have my custom fns for evaluating code
 --
 
--- vim.keymap.set('n', '<leader>o', function()
---   -- if vim.bo.filetype == 'julia' or vim.bo.filetype == 'python' or vim.bo.filetype == 'quarto' then
---   --print('Hello')
---   vim.cmd 'silent! normal vip"ay'
---   vim.cmd 'silent! redir! > buffer.txt'
---   vim.cmd 'silent! echo @a'
---   vim.cmd 'silent! redir END'
---   vim.fn.system 'tmux load-buffer buffer.txt'
---   vim.fn.system 'tmux select-pane -R'
---   vim.fn.system 'tmux paste-buffer'
---   vim.fn.system 'rm buffer.txt'
---   --else
---   --  print 'Not a julia or python file.'
---   --end
--- end, { desc = 'Send paragraph to REPL and go over' })
-
--- vim.keymap.set('n', '<leader><CR>', function()
---   -- if vim.bo.filetype == 'julia' or vim.bo.filetype == 'python' or vim.bo.filetype == 'quarto' or vim.bo.filetype == 'sh' then
---   --print('Hello')
---   vim.cmd 'silent! normal V"ay'
---   vim.cmd 'silent! redir! > buffer.txt'
---   vim.cmd 'silent! echo @a'
---   vim.cmd 'silent! redir END'
---   vim.fn.system 'tmux load-buffer buffer.txt'
---   vim.fn.system 'tmux select-pane -R'
---   vim.fn.system 'tmux paste-buffer'
---   vim.fn.system 'tmux select-pane -L'
---   vim.fn.system 'rm buffer.txt'
---   vim.cmd 'silent! normal j'
---   --else
---   --  print 'Not a julia or python file.'
---   --end
--- end, { desc = 'Send line to REPL' })
-
 -- eval from beginning
 vim.keymap.set('n', '<leader>B', function()
   --print('Hello')
@@ -67,20 +33,6 @@ vim.keymap.set('n', '<leader>E', function()
   vim.fn.system 'tmux select-pane -L'
   vim.fn.system 'rm buffer.txt'
 end, { desc = 'Select file from beginning to current line and send to REPL' })
-
--- -- this can be annoying when typing
--- vim.keymap.set('i', '<leader><CR>', function()
---   --print('Hello')
---   vim.cmd 'silent! normal V"ay'
---   vim.cmd 'silent! redir! > buffer.txt'
---   vim.cmd 'silent! echo @a'
---   vim.cmd 'silent! redir END'
---   vim.fn.system 'tmux load-buffer buffer.txt'
---   vim.fn.system 'tmux select-pane -R'
---   vim.fn.system 'tmux paste-buffer'
---   vim.fn.system 'tmux select-pane -L'
---   vim.fn.system 'rm buffer.txt'
--- end, { desc = 'Send current line to REPL' })
 
 -- For python
 vim.keymap.set('n', '<C-j>', function()
@@ -272,60 +224,6 @@ function SendToTerminal(text)
   return false
 end
 
--- function SendParagraphToTerminal()
---   if HasRightSplit() then
---     -- Get current window
---     local curr_win = vim.api.nvim_get_current_win()
---     -- Visual select inner paragraph, then copy it
---     vim.cmd('normal! vip"ay')
---     -- Move to the right split
---     -- vim.cmd('call feedkeys(\"\<A-l>\")')
---     -- Paste the text
---     vim.cmd('normal! p')
---     -- Press Enter twice
---     vim.cmd('normal! a')
---     vim.cmd('call feedkeys("\r")')
---     vim.cmd('call feedkeys("\r")')
---     -- Move back to the left split
---     -- vim.cmd('call feedkeys("\<A-h>")')
---     -- Return to the original window
---     vim.api.nvim_set_current_win(curr_win)
---   else
---     vim.cmd 'silent! normal V"ay'
---     vim.cmd('vsplit')
---     vim.cmd('terminal')
---     vim.cmd('startinsert')
---   end
--- end
-
--- vim.keymap.set('n', '<leader><CR>', function()
---   -- if vim.bo.filetype == 'julia' or vim.bo.filetype == 'python' or vim.bo.filetype == 'quarto' or vim.bo.filetype == 'sh' then
---   --print('Hello')
---   if vim.env.TMUX ~=nil then
---     vim.cmd 'silent! normal V"ay'
---     vim.cmd 'silent! redir! > buffer.txt'
---     vim.cmd 'silent! echo @a'
---     vim.cmd 'silent! redir END'
---     vim.fn.system 'tmux load-buffer buffer.txt'
---     vim.fn.system 'tmux select-pane -R'
---     vim.fn.system 'tmux paste-buffer'
---     vim.fn.system 'tmux select-pane -L'
---     vim.fn.system 'rm buffer.txt'
---     vim.cmd 'silent! normal j'
---   else
---     if not HasRightSplit() then
---       vim.cmd 'silent! normal V"ay'
---       vim.cmd('vsplit')
---       vim.cmd('terminal')
---       vim.cmd('startinsert')
---     else
---       -- CopyParagraphToTerminal()
---       vim.cmd 'silent! normal V"ay'
---       SendToTerminal(vim.fn.getreg('"'))
---     end
---   end
--- end, { desc = 'Send line to REPL' })
-
 function SendCode()
   -- if vim.bo.filetype == 'julia' or vim.bo.filetype == 'python' or vim.bo.filetype == 'quarto' then
   --print('Hello')
@@ -342,7 +240,20 @@ function SendCode()
   else
     if not HasRightSplit() then
       vim.cmd 'vsplit'
-      vim.cmd 'terminal'
+      local repl_command = vim.o.shell
+      -- Check for a Python project with ipython managed by uv
+      if vim.fn.executable 'uv' == 1 and vim.fn.findfile('pyproject.toml', '.;') ~= '' then
+        -- Silently check if 'ipython' is available in the uv environment.
+        -- We check the exit code via vim.v.shell_error.
+        vim.fn.system 'uv run -- which ipython > /dev/null 2>&1'
+        if vim.v.shell_error == 0 then
+          -- vim.notify('🐍 Python project detected. Starting iPython.', vim.log.levels.INFO)
+          print 'Python project detected. Starting iPython.'
+          repl_command = 'uv run ipython'
+        end
+      end
+
+      vim.cmd('terminal ' .. repl_command)
       vim.cmd 'startinsert'
     else
       local mode = vim.api.nvim_get_mode().mode
