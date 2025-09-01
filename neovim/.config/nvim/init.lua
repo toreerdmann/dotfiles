@@ -18,7 +18,6 @@ Kickstart Guide:
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -174,18 +173,10 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  {
+    'ggml-org/llama.vim',
+  },
 
   {
     'stevanmilic/nvim-lspimport',
@@ -203,7 +194,7 @@ require('lazy').setup({
       -- Only one of these is needed.
       'nvim-telescope/telescope.nvim', -- optional
       --'ibhagwan/fzf-lua', -- optional
-      'echasnovski/mini.pick', -- optional
+      -- 'echasnovski/mini.pick', -- optional
     },
     config = true,
   },
