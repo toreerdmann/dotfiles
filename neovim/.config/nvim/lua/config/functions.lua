@@ -249,7 +249,7 @@ function SendCode()
         if vim.v.shell_error == 0 then
           -- vim.notify('🐍 Python project detected. Starting iPython.', vim.log.levels.INFO)
           print 'Python project detected. Starting iPython.'
-          repl_command = 'uv run ipython'
+          repl_command = 'uv run ipython --profile vim'
         end
       end
 
