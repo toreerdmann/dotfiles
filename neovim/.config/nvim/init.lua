@@ -21,6 +21,8 @@ Kickstart Guide:
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.env.LANG = "en_US.UTF-8"
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -751,6 +753,13 @@ require('lazy').setup({
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
 
+  { 'mfussenegger/nvim-dap' },
+  { 'mfussenegger/nvim-dap-python',
+    config = function() 
+      require("dap-python").setup("uv")
+    end
+  },
+
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
@@ -815,9 +824,17 @@ require('lazy').setup({
 --   }
 -- }
 
+vim.lsp.config('basedpyright', {
+  settings = {
+    basedpyright = {
+      typeCheckingMode = "standard",
+    },
+  },
+})
+
 -- vim.lsp.enable("clangd")
--- vim.lsp.enable 'basedpyright'
-vim.lsp.enable 'pyright'
+vim.lsp.enable 'basedpyright'
+-- vim.lsp.enable 'pyright'
 -- vim.lsp.enable 'ruff'
 
 -- The line beneath this is called `modeline`. See `:help modeline`

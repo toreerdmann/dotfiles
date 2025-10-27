@@ -46,7 +46,7 @@ return {
         show_source = {
           enabled = false,
           -- Show source only when multiple sources exist for the same diagnostic
-          if_many = false,
+          if_many = true,
         },
 
         -- Use icons defined in the diagnostic configuration instead of preset icons
