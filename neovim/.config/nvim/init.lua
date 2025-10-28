@@ -602,7 +602,7 @@ require('lazy').setup({
     'catppuccin/nvim',
     config = function()
       require('catppuccin').setup {
-        vim.cmd.colorscheme 'catppuccin-latte',
+        vim.cmd.colorscheme 'catppuccin-frappe',
       }
     end,
   },
