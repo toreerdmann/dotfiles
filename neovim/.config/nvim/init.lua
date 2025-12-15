@@ -631,6 +631,15 @@ require('lazy').setup({
     handlers = {
       ["pyrefly"] = function()
 
+        local lspconfig = require('lspconfig')
+        local capabilities = require('blink.cmp').get_lsp_capabilities()
+
+        -- Setup Pyrefly with Blink capabilities
+        lspconfig.pyrefly.setup({
+          capabilities = capabilities,
+          -- Ensure it finds your virtualenv if needed (though pyrightconfig.json is better)
+        })
+
         -- lspconfig.pyrefly.setup {
         --   cmd = { venv_python_path, mason_pyrefly_path, "lsp" },
         --   filetypes = { "python" },
