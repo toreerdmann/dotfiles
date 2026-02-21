@@ -2,6 +2,7 @@
 return {
   cmd = { "uv", "run", "pyrefly", "lsp" },
   filetypes = { "python" },
+  capabilities = require("blink.cmp").get_lsp_capabilities(),
   root_markers = {
     "pyrefly.toml",
     "pyproject.toml",
