@@ -1,0 +1,22 @@
+return {}
+--   "neoclide/coc.nvim",
+--   branch = "release",
+--   config = function()
+--     -- Lua equivalent for C-n and C-p navigation
+--     vim.keymap.set("i", "<C-n>", function()
+--       if vim.fn["coc#pum#visible"]() then
+--         return vim.fn["coc#pum#next"](1)
+--       else
+--         return "<C-n>"
+--       end
+--     end, { expr = true, silent = true })
+--
+--     vim.keymap.set("i", "<C-p>", function()
+--       if vim.fn["coc#pum#visible"]() then
+--         return vim.fn["coc#pum#prev"](1)
+--       else
+--         return "<C-p>"
+--       end
+--     end, { expr = true, silent = true })
+--   end,
+-- }
