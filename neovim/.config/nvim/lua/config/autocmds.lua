@@ -15,5 +15,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       context = { only = { "source.organizeImports" } },
       apply = true,
     })
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = ".env",
+  callback = function()
+    -- Disable diagnostics for the buffer
+    vim.diagnostic.disable()
+    -- Optionally, detach LSP clients if needed
+    local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+    for _, client in ipairs(clients) do
+      vim.lsp.buf_detach_client(vim.api.nvim_get_current_buf(), client.id)
+    end
   end,
 })

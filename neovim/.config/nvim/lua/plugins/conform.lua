@@ -11,6 +11,12 @@ return {
         -- To organize the imports.
         "ruff_organize_imports",
       },
+      toml = { "taplo" },
+    },
+    formatters = {
+      taplo = {
+        args = { "format", "-", "--option", "indent_string=    " },
+      },
     },
   },
 }
