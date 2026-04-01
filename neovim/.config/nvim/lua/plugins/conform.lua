@@ -15,7 +15,7 @@ return {
     },
     formatters = {
       taplo = {
-        args = { "format", "-", "--option", "indent_string=    " },
+        args = { "format", "-", "--option", "indent_string=  " },
       },
     },
   },

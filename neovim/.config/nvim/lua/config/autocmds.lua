@@ -8,16 +8,6 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 --
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.py",
-  callback = function()
-    vim.lsp.buf.code_action({
-      context = { only = { "source.organizeImports" } },
-      apply = true,
-    })
-  end,
-})
-
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = ".env",
   callback = function()
@@ -28,5 +18,15 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     for _, client in ipairs(clients) do
       vim.lsp.buf_detach_client(vim.api.nvim_get_current_buf(), client.id)
     end
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "dockerfile",
+  callback = function()
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+    vim.opt_local.softtabstop = 4
+    vim.opt_local.expandtab = true
   end,
 })
