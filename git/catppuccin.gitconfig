@@ -1,0 +1,41 @@
+[delta "catppuccin-mocha"]
+    minus-style = syntax "#313244" "#45475a"
+    minus-non-emph-style = syntax "#313244" "#45475a"
+    minus-emph-style = syntax "#313244" "#f38ba8"
+    minus-empty-line-marker-style = syntax "#313244" "#45475a"
+    line-numbers-minus-style = "#f38ba8"
+    plus-style = syntax "#313244" "#45475a"
+    plus-non-emph-style = syntax "#313244" "#45475a"
+    plus-emph-style = syntax "#313244" "#a6e3a1"
+    plus-empty-line-marker-style = syntax "#313244" "#45475a"
+    line-numbers-plus-style = "#a6e3a1"
+    line-numbers-zero-style = "#bac2de"
+    line-numbers-left-column-style = "#313244"
+    line-numbers-right-column-style = "#313244"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+    map-styles = \
+        bold purple => syntax "#cba6f7", \
+        bold cyan => syntax "#89dceb", \
+        bold yellow => syntax "#f9e2af"
+
+[delta "catppuccin-latte"]
+    minus-style = syntax "#dce0e8" "#e6e9ef"
+    minus-non-emph-style = syntax "#dce0e8" "#e6e9ef"
+    minus-emph-style = syntax "#dce0e8" "#d20f39"
+    minus-empty-line-marker-style = syntax "#dce0e8" "#e6e9ef"
+    line-numbers-minus-style = "#d20f39"
+    plus-style = syntax "#dce0e8" "#e6e9ef"
+    plus-non-emph-style = syntax "#dce0e8" "#e6e9ef"
+    plus-emph-style = syntax "#dce0e8" "#40a02b"
+    plus-empty-line-marker-style = syntax "#dce0e8" "#e6e9ef"
+    line-numbers-plus-style = "#40a02b"
+    line-numbers-zero-style = "#4c4f69"
+    line-numbers-left-column-style = "#dce0e8"
+    line-numbers-right-column-style = "#dce0e8"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+    map-styles = \
+        bold purple => syntax "#8839ef", \
+        bold cyan => syntax "#179299", \
+        bold yellow => syntax "#df8e1d"

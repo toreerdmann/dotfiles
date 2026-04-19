@@ -1,0 +1,31 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Tore Erdmann
+
+[core]
+	pager = delta
+	editor = vi
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true  # use n and N to move between diff sections
+	features = catppuccin-mocha
+	side-by-side = true
+	line-numbers = true
+
+[include]
+    path = ~/.config/git/catppuccin.gitconfig
+
+[include]
+    path = ~/.gitconfig.local
+
+[merge]
+	conflictstyle = zdiff3
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
