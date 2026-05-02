@@ -21,6 +21,19 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.scd",
+  callback = function()
+    -- Disable diagnostics for the buffer
+    vim.diagnostic.disable()
+    -- Optionally, detach LSP clients if needed
+    local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+    for _, client in ipairs(clients) do
+      vim.lsp.buf_detach_client(vim.api.nvim_get_current_buf(), client.id)
+    end
+  end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "dockerfile",
   callback = function()
@@ -28,5 +41,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.tabstop = 4
     vim.opt_local.softtabstop = 4
     vim.opt_local.expandtab = true
+    vim.lsp.buf.format()
   end,
 })
