@@ -1,5 +1,9 @@
 return {
   "snacks.nvim",
+  keys = {
+    { "<leader>ff", function() LazyVim.pick("files", { root = false })() end, desc = "Find Files (cwd)" },
+    { "<leader>fF", function() LazyVim.pick("files")() end, desc = "Find Files (Root Dir)" },
+  },
   opts = {
     indent = { enabled = false },
     input = { enabled = true },

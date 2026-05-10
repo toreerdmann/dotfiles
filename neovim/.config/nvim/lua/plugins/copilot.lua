@@ -1,14 +1,142 @@
-return {
-  {
-    "editor-code-assistant/eca-nvim",
-    enabled = false,
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("eca").setup({
-        -- Optional configuration here
-      })
-    end,
-  },
-  { "ggml-org/llama.vim" },
-  { "zbirenbaum/copilot.lua", enabled = false },
-}
+return {}
+-- return {
+--   {
+--     "editor-code-assistant/eca-nvim",
+--     dependencies = { "nvim-lua/plenary.nvim" },
+--     config = function()
+--       require("eca").setup({
+--         -- Optional configuration here
+--         completion = {
+--           enabled = true,
+--           ghost_text = true, -- This is what gives the "Copilot" look
+--           debounce_ms = 150,
+--         },
+--       })
+--     end,
+--     enabled = false,
+--   },
+--   { "ggml-org/llama.vim", enabled = false },
+--   { "zbirenbaum/copilot.lua", enabled = false },
+--   -- {
+--   --   "huggingface/llm.nvim",
+--   --   opts = {
+--   --     backend = "openai", -- OpenRouter uses the OpenAI format
+--   --     url = "https://openrouter.ai/api/v1/completions",
+--   --     model = "deepkeek/deepkeek-v4-flash",
+--   --     fim = {
+--   --       enabled = true,
+--   --       jk
+--   --       prefix = "<|fim_prefix|>",
+--   --       middle = "<|fim_middle|>",
+--   --       suffix = "<|fim_suffix|>",
+--   --     },
+--   --     debounce_ms = 150,
+--   --     accept_keymap = "<C-y>",
+--   --     dismiss_keymap = "<C-m",
+--   --   },
+--   --   enabled = true,
+--   -- },
+--   -- {
+--   --   "huggingface/llm.nvim",
+--   --   opts = {
+--   --     lsp = {
+--   --       cmd_env = { LLM_LOG_LEVEL = "trace" },
+--   --     },
+--   --     backend = "ollama",
+--   --     url = "https://openrouter.ai/api/v1/completions",
+--   --     -- model = "deepseek/deepseek-v4-flash",
+--   --     --
+--   --     model = "deepseek/deepseek-chat", -- Use this for testing
+--   --     api_token = os.getenv("OPENROUTER_API_KEY"),
+--   --     request_body = {
+--   --       model = "deepseek/deepseek-chat",
+--   --       max_tokens = 64,
+--   --       temperature = 0.2,
+--   --       extra_headers = {
+--   --         ["HTTP-Referer"] = "https://github.com/huggingface/llm.nvim",
+--   --         ["X-Title"] = "Neovim",
+--   --       },
+--   --     },
+--   --     fim = {
+--   --       enabled = true,
+--   --       prefix = "<|fim_prefix|>",
+--   --       middle = "<|fim_middle|>",
+--   --       suffix = "<|fim_suffix|>",
+--   --     },
+--   --     debounce_ms = 150,
+--   --     accept_keymap = "<C-y>",
+--   --     dismiss_keymap = "<C-m>",
+--   --   },
+--   -- },
+--   {
+--     "huggingface/llm.nvim",
+--     opts = {
+--       backend = "huggingface", -- Use this to bypass strict OpenAI schema checks
+--       url = "https://openrouter.ai/api/v1/completions",
+--       model = "deepseek/deepseek-chat",
+--       api_token = os.getenv("OPENROUTER_API_KEY"),
+--
+--       -- We define the exact body OpenRouter expects
+--       request_body = {
+--         model = "deepseek/deepseek-chat",
+--         max_tokens = 100,
+--         temperature = 0.2,
+--       },
+--
+--       fim = {
+--         enabled = true,
+--         prefix = "<|fim_prefix|>",
+--         middle = "<|fim_middle|>",
+--         suffix = "<|fim_suffix|>",
+--       },
+--
+--       -- MUST include these for OpenRouter's router to not reject the request
+--       --
+--       context_window = 4096,
+--       lsp = {
+--         bin_path = nil,
+--         cmd_env = {
+--           LLM_LOG_LEVEL = "info",
+--           -- Force the binary to use standard headers
+--           HTTP_REFERER = "https://github.com/huggingface/llm.nvim",
+--           X_TITLE = "Neovim",
+--         },
+--       },
+--     },
+--   },
+-- }
+-- return {
+--   "huggingface/llm.nvim",
+--   opts = {
+--     backend = "openai",
+--     -- Use CHAT endpoint, it is more stable for parsing
+--     url = "https://openrouter.ai/api",
+--     model = "deepseek/deepseek-chat",
+--     api_token = os.getenv("OPENROUTER_API_KEY"),
+--
+--     request_body = {
+--       model = "deepseek/deepseek-chat",
+--       -- No extra nested tables here, let llm-ls handle the defaults
+--     },
+--
+--     fim = {
+--       enabled = true,
+--       prefix = "<|fim_prefix|>",
+--       middle = "<|fim_middle|>",
+--       suffix = "<|fim_suffix|>",
+--     },
+--
+--     -- Crucial: OpenRouter requires these for routing
+--     lsp = {
+--       cmd_env = {
+--         LLM_LOG_LEVEL = "info",
+--         HTTP_REFERER = "https://github.com/huggingface/llm.nvim",
+--         X_TITLE = "Neovim",
+--       },
+--     },
+--
+--     debounce_ms = 150,
+--     accept_keymap = "<C-y>",
+--     dismiss_keymap = "<C-m>",
+--   },
+-- }

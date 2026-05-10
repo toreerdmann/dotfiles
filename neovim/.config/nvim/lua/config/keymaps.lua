@@ -95,3 +95,7 @@ vim.keymap.set("i", "<A-j>", "<C-\\<C-N><C-w>j")
 vim.keymap.set("i", "<A-k>", "<C-\\<C-N><C-w>k")
 vim.keymap.set("i", "<A-l>", "<C-\\<C-N><C-w>l")
 vim.keymap.set("n", "<A-h>", "<C-w>h")
+
+vim.keymap.set("i", "<C-g>", function()
+  require("util.openrouter").complete()
+end, { desc = "OpenRouter complete" })
