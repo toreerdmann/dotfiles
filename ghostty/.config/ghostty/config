@@ -42,4 +42,6 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 theme = dark:catppuccin-mocha,light:catppuccin-latte
+#theme = dark: Builtin Solarized Dark, light: Builtin Solarized Light
 cursor-click-to-move = true
+font-family = Iosevka
