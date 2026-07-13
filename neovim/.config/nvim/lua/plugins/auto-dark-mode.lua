@@ -1,6 +1,10 @@
 return {
   "f-person/auto-dark-mode.nvim",
+  enabled = function()
+    return not vim.env.CODESPACES and not vim.env.SSH_CLIENT and not vim.env.SSH_TTY
+  end,
   opts = {
+
     update_interval = 1000,
     set_dark_mode = function()
       vim.api.nvim_set_option_value("background", "dark", {})
