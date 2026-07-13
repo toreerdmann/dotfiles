@@ -13,6 +13,19 @@ if ! command -v stow &> /dev/null || ! command -v fish &> /dev/null; then
   fi
 fi
 
+# Install luarocks if not already installed
+if ! command -v luarocks &> /dev/null; then
+  echo "luarocks missing. Attempting to install..."
+  if command -v apt-get &> /dev/null; then
+    sudo apt-get update && sudo apt-get install -y luarocks
+  elif command -v brew &> /dev/null; then
+    brew install luarocks
+  else
+    echo "Warning: Package manager not found. Please install 'luarocks' manually."
+  fi
+fi
+
+
 # 2. Install mise-en-place if not already installed
 MISE_BIN=""
 if command -v mise &> /dev/null; then

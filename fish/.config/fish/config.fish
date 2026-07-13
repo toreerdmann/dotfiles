@@ -29,6 +29,7 @@ safe_add_path "$HOME/.antigravity/antigravity/bin"
 # Local bin
 safe_add_path "$HOME/.local/bin"
 safe_add_path "$HOME/.local/share/mise/bin"
+safe_add_path "$HOME/.local/share/mise/shims"
 
 # Activate mise-en-place
 if status is-interactive

@@ -3,3 +3,7 @@ neovim = "latest"
 tmux = "latest"
 ripgrep = "latest"
 lazygit = "latest"
+tree-sitter = "latest"
+fd = "latest"
+
+
