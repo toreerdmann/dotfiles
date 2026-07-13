@@ -68,6 +68,20 @@ for pkg in */; do
   find "$pkg" -mindepth 1 | while read -r path; do
     rel_path=${path#$pkg/}
     target_path="$HOME/$rel_path"
+
+    # Skip if any parent directory of target_path is a symlink (meaning stow already links a parent folder)
+    is_inside_symlink=false
+    current_dir=$(dirname "$target_path")
+    while [ "$current_dir" != "$HOME" ] && [ "$current_dir" != "/" ]; do
+      if [ -L "$current_dir" ]; then
+        is_inside_symlink=true
+        break
+      fi
+      current_dir=$(dirname "$current_dir")
+    done
+    if [ "$is_inside_symlink" = true ]; then
+      continue
+    fi
     
     # If the target exists and is a physical file or folder (not a symlink)
     if [ -e "$target_path" ] && [ ! -L "$target_path" ]; then
@@ -75,11 +89,14 @@ for pkg in */; do
       # or if the repository contains it as a file. If it's just a parent folder (like .config), 
       # Stow will merge it, so we don't back up parent folders.
       if [ -d "$target_path" ] && [ -d "$path" ]; then
-        # Check if the repository path contains files directly (meaning it's a leaf target directory)
-        # or if we want to merge it. We only back up if we are stowing the entire directory.
-        # Generally, backing up directories like .config/nvim is safe, but we shouldn't back up ~/.config itself.
-        # We can identify leaf directories by checking if their parent directory in the repo is the package root.
-        if [ "$(dirname "$rel_path")" = "." ]; then
+        # Skip backing up shared/system parent directories
+        if [ "$rel_path" = ".config" ] || [ "$rel_path" = ".local" ] || [ "$rel_path" = ".local/share" ]; then
+          continue
+        fi
+
+        # Only back up directories whose parent is .config or the home directory (.)
+        parent_dir=$(dirname "$rel_path")
+        if [ "$parent_dir" = ".config" ] || [ "$parent_dir" = "." ]; then
           echo "Backing up physical directory $target_path to $target_path.bak..."
           mv "$target_path" "$target_path.bak"
         fi
