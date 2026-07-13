@@ -27,7 +27,24 @@ if [ -f "$MISE_BIN" ]; then
   export PATH="$HOME/.local/share/mise/bin:$PATH"
 fi
 
-# 4. Stow dotfiles (runs Makefile to link all configurations, including mise config.toml)
+# 4. Clean up conflicting physical files/folders in home directory (back them up if they exist and are not symlinks)
+echo "Checking for conflicting physical configurations in home directory..."
+# Files to check
+for file in ".zshrc" ".gitconfig" ".config/fish/config.fish" ".tmux.conf"; do
+  if [ -f "$HOME/$file" ] && [ ! -L "$HOME/$file" ]; then
+    echo "Backing up physical file $HOME/$file to $HOME/$file.bak..."
+    mv "$HOME/$file" "$HOME/$file.bak"
+  fi
+done
+# Directories to check
+for dir in ".config/nvim" ".config/ghostty" ".config/rofi" ".tmux" ".config/alacritty" ".config/mise"; do
+  if [ -d "$HOME/$dir" ] && [ ! -L "$HOME/$dir" ]; then
+    echo "Backing up physical directory $HOME/$dir to $HOME/$dir.bak..."
+    mv "$HOME/$dir" "$HOME/$dir.bak"
+  fi
+done
+
+# 5. Stow dotfiles (runs Makefile to link all configurations, including mise config.toml)
 echo "Stowing configurations..."
 if [ -f "makefile" ] || [ -f "Makefile" ]; then
   make
@@ -35,7 +52,7 @@ else
   stow --verbose --target="$HOME" --restow */
 fi
 
-# 5. Install all configured tools in ~/.config/mise/config.toml (tmux, ripgrep, lazygit, neovim)
+# 6. Install all configured tools in ~/.config/mise/config.toml (tmux, ripgrep, lazygit, neovim)
 if command -v mise &> /dev/null; then
   echo "Installing tools via mise..."
   mise install --yes
