@@ -14,34 +14,69 @@ if ! command -v stow &> /dev/null || ! command -v fish &> /dev/null; then
 fi
 
 # 2. Install mise-en-place if not already installed
-MISE_BIN="$HOME/.local/share/mise/bin/mise"
-if ! command -v mise &> /dev/null && [ ! -f "$MISE_BIN" ]; then
+MISE_BIN=""
+if command -v mise &> /dev/null; then
+  MISE_BIN=$(command -v mise)
+elif [ -f "$HOME/.local/bin/mise" ]; then
+  MISE_BIN="$HOME/.local/bin/mise"
+elif [ -f "$HOME/.local/share/mise/bin/mise" ]; then
+  MISE_BIN="$HOME/.local/share/mise/bin/mise"
+fi
+
+if [ -z "$MISE_BIN" ]; then
   echo "Installing mise-en-place..."
   curl https://mise.run | sh
+  # Resolve path after installing
+  if [ -f "$HOME/.local/bin/mise" ]; then
+    MISE_BIN="$HOME/.local/bin/mise"
+  elif [ -f "$HOME/.local/share/mise/bin/mise" ]; then
+    MISE_BIN="$HOME/.local/share/mise/bin/mise"
+  fi
 else
   echo "mise-en-place is already installed."
 fi
 
 # 3. Temporarily add mise to PATH for the rest of this setup script
-if [ -f "$MISE_BIN" ]; then
-  export PATH="$HOME/.local/share/mise/bin:$PATH"
+if [ -n "$MISE_BIN" ]; then
+  export PATH="$(dirname "$MISE_BIN"):$PATH"
 fi
+
 
 # 4. Clean up conflicting physical files/folders in home directory (back them up if they exist and are not symlinks)
 echo "Checking for conflicting physical configurations in home directory..."
-# Files to check
-for file in ".zshrc" ".gitconfig" ".config/fish/config.fish" ".tmux.conf"; do
-  if [ -f "$HOME/$file" ] && [ ! -L "$HOME/$file" ]; then
-    echo "Backing up physical file $HOME/$file to $HOME/$file.bak..."
-    mv "$HOME/$file" "$HOME/$file.bak"
+for pkg in */; do
+  pkg=${pkg%/}
+  # Skip non-directories or hidden folders (like .git)
+  if [ ! -d "$pkg" ] || [[ "$pkg" == .* ]]; then
+    continue
   fi
-done
-# Directories to check
-for dir in ".config/nvim" ".config/ghostty" ".config/rofi" ".tmux" ".config/alacritty" ".config/mise"; do
-  if [ -d "$HOME/$dir" ] && [ ! -L "$HOME/$dir" ]; then
-    echo "Backing up physical directory $HOME/$dir to $HOME/$dir.bak..."
-    mv "$HOME/$dir" "$HOME/$dir.bak"
-  fi
+  
+  # Find all files/directories in this package and check their matching paths in $HOME
+  find "$pkg" -mindepth 1 | while read -r path; do
+    rel_path=${path#$pkg/}
+    target_path="$HOME/$rel_path"
+    
+    # If the target exists and is a physical file or folder (not a symlink)
+    if [ -e "$target_path" ] && [ ! -L "$target_path" ]; then
+      # If it's a directory, only back it up if it's a leaf/target directory in our stow config, 
+      # or if the repository contains it as a file. If it's just a parent folder (like .config), 
+      # Stow will merge it, so we don't back up parent folders.
+      if [ -d "$target_path" ] && [ -d "$path" ]; then
+        # Check if the repository path contains files directly (meaning it's a leaf target directory)
+        # or if we want to merge it. We only back up if we are stowing the entire directory.
+        # Generally, backing up directories like .config/nvim is safe, but we shouldn't back up ~/.config itself.
+        # We can identify leaf directories by checking if their parent directory in the repo is the package root.
+        if [ "$(dirname "$rel_path")" = "." ]; then
+          echo "Backing up physical directory $target_path to $target_path.bak..."
+          mv "$target_path" "$target_path.bak"
+        fi
+      elif [ -f "$target_path" ]; then
+        echo "Backing up physical file $target_path to $target_path.bak..."
+        mkdir -p "$(dirname "$target_path.bak")"
+        mv "$target_path" "$target_path.bak"
+      fi
+    fi
+  done
 done
 
 # 5. Stow dotfiles (runs Makefile to link all configurations, including mise config.toml)

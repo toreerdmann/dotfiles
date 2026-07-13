@@ -122,6 +122,9 @@ function nvimq() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Activate mise-en-place
+if [ -d "$HOME/.local/bin" ]; then
+	export PATH="$HOME/.local/bin:$PATH"
+fi
 if [ -d "$HOME/.local/share/mise/bin" ]; then
 	export PATH="$HOME/.local/share/mise/bin:$PATH"
 fi
