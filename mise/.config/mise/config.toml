@@ -1,0 +1,5 @@
+[tools]
+neovim = "latest"
+tmux = "latest"
+ripgrep = "latest"
+lazygit = "latest"

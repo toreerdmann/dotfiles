@@ -120,3 +120,16 @@ function nvimq() {
 
 # setup fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Activate mise-en-place
+if [ -d "$HOME/.local/share/mise/bin" ]; then
+	export PATH="$HOME/.local/share/mise/bin:$PATH"
+fi
+if command -v mise &> /dev/null; then
+	eval "$(mise activate zsh)"
+fi
+
+# Load local overrides
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+
