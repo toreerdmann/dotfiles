@@ -9,8 +9,10 @@ When you clone this repository into a GitHub Codespaces instance or configure it
 It handles:
 1. Installing GNU Stow and the `fish` shell.
 2. Installing `mise` (if not already installed).
-3. Symlinking all configuration directories to your home directory (using the `Makefile` and `stow`).
-4. Installing all configured tools from `mise.toml` (`tmux`, `ripgrep`, `lazygit`, and `neovim`).
+3. Backing up conflicting physical configs to resolve stow clashes.
+4. Symlinking all configuration directories to your home directory (using the `Makefile` and `stow`).
+5. Installing all configured tools from `mise.toml` (`tmux`, `ripgrep`, `lazygit`, and `neovim`).
+6. Setting the default system shell to `fish`.
 
 ## Manual Setup
 

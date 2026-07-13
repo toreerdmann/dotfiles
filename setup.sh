@@ -60,4 +60,14 @@ else
   echo "Error: mise command not found, cannot install tools automatically."
 fi
 
+# 7. Set fish as the default shell if available
+if command -v fish &> /dev/null; then
+  FISH_PATH=$(command -v fish)
+  if [ "$SHELL" != "$FISH_PATH" ]; then
+    echo "Setting fish as the default shell..."
+    sudo chsh -s "$FISH_PATH" "$(whoami)" || chsh -s "$FISH_PATH" || true
+  fi
+fi
+
 echo "=== Dotfiles setup complete! ==="
+
