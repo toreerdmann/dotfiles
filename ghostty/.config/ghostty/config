@@ -45,3 +45,7 @@ theme = dark:catppuccin-mocha,light:catppuccin-latte
 #theme = dark: Builtin Solarized Dark, light: Builtin Solarized Light
 cursor-click-to-move = true
 font-family = Iosevka
+
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = clipboard
