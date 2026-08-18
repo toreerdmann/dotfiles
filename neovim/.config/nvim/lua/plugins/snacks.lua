@@ -8,6 +8,14 @@ return {
     indent = { enabled = false },
     input = { enabled = true },
     notifier = { enabled = true },
+    picker = {
+      sources = {
+        explorer = {
+          hidden = true, -- show dotfiles
+          ignored = true, -- show gitignored files
+        },
+      },
+    },
     scope = { enabled = true },
     scroll = { enabled = false },
     statuscolumn = { enabled = false }, -- we set this in options.lua

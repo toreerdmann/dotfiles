@@ -12,6 +12,7 @@ return {
         "ruff_organize_imports",
       },
       toml = { "taplo" },
+      yaml = { "yamlfmt" },
     },
     formatters = {
       taplo = {
