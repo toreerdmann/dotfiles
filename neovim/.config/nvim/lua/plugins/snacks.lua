@@ -3,6 +3,8 @@ return {
   keys = {
     { "<leader>ff", function() LazyVim.pick("files", { root = false })() end, desc = "Find Files (cwd)" },
     { "<leader>fF", function() LazyVim.pick("files")() end, desc = "Find Files (Root Dir)" },
+    { "<leader>fa", function() Snacks.picker.files({ hidden = true, ignored = true }) end, desc = "Find Files (incl. hidden/ignored)" },
+    { "<leader>sa", function() Snacks.picker.grep({ hidden = true, ignored = true }) end, desc = "Grep (incl. hidden/ignored)" },
   },
   opts = {
     indent = { enabled = false },
