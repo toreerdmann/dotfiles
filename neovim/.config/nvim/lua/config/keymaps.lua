@@ -97,5 +97,29 @@ vim.keymap.set("i", "<A-l>", "<C-\\<C-N><C-w>l")
 vim.keymap.set("n", "<A-h>", "<C-w>h")
 
 vim.keymap.set("i", "<C-g>", function()
-  require("util.openrouter").complete()
-end, { desc = "OpenRouter complete" })
+  require("util.openrouter").complete({ mode = "ghost_text" })
+end, { desc = "OpenRouter complete (ghost text preview)" })
+
+vim.keymap.set("i", "<A-g>", function()
+  require("util.openrouter").complete({ mode = "direct" })
+end, { desc = "OpenRouter direct insert" })
+
+vim.keymap.set("i", "<Tab>", function()
+  if require("util.openrouter").has_suggestion() then
+    require("util.openrouter").accept()
+    return ""
+  end
+  return "<Tab>"
+end, { expr = true, desc = "Accept AI completion or Tab" })
+
+vim.keymap.set("i", "<C-y>", function()
+  if require("util.openrouter").has_suggestion() then
+    require("util.openrouter").accept()
+  end
+end, { desc = "Accept AI completion" })
+
+vim.keymap.set("i", "<C-e>", function()
+  if require("util.openrouter").has_suggestion() then
+    require("util.openrouter").dismiss()
+  end
+end, { desc = "Dismiss AI completion" })

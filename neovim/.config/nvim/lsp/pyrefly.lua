@@ -12,10 +12,8 @@ return {
     "Pipfile",
     ".git",
   },
-  settings = {
-    init_options = {
-      displayTypeErrors = "force-on",
-    },
+  init_options = {
+    displayTypeErrors = "force-on",
   },
   -- on_attach = function(client, bufnr)
   --   if client.server_capabilities.inlayHintProvider then
