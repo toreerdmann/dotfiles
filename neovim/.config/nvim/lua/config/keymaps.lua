@@ -115,11 +115,16 @@ end, { expr = true, desc = "Accept AI completion or Tab" })
 vim.keymap.set("i", "<C-y>", function()
   if require("util.openrouter").has_suggestion() then
     require("util.openrouter").accept()
+    return ""
   end
-end, { desc = "Accept AI completion" })
+  return "<C-y>"
+end, { expr = true, desc = "Accept AI completion or default <C-y>" })
 
 vim.keymap.set("i", "<C-e>", function()
   if require("util.openrouter").has_suggestion() then
     require("util.openrouter").dismiss()
+    return ""
   end
-end, { desc = "Dismiss AI completion" })
+  return "<C-e>"
+end, { expr = true, desc = "Dismiss AI completion or default <C-e>" })
+
