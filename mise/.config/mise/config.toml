@@ -7,6 +7,4 @@ tree-sitter = "latest"
 fd = "latest"
 gh = "latest"
 fzf = "latest"
-
-
-
+kubectl = "1.36.2"

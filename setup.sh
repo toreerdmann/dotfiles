@@ -193,17 +193,23 @@ for rc in "$HOME/.bashrc"; do
   } >> "$rc"
 done
 
-# 8. Pick a default shell.
-#    Codespaces gets zsh -- fish as the login shell broke the container, and
-#    the plugins installed above give it the fish-style editing anyway.
-#    Everywhere else, fish.
-if [ "${CODESPACES:-}" = "true" ]; then
+# 8. Pick a default login shell.
+#    Codespaces gets zsh: a non-POSIX login shell breaks the VS Code Remote-SSH
+#    / Codespaces server bootstrap, and the plugins installed above give zsh the
+#    fish-style editing anyway. Everywhere else, fish.
+#    Override with DOTFILES_SHELL=/path/to/shell, or DOTFILES_SHELL=none to
+#    leave the login shell alone entirely.
+if [ -n "${DOTFILES_SHELL:-}" ]; then
+  TARGET_SHELL="$DOTFILES_SHELL"
+elif [ "${CODESPACES:-}" = "true" ]; then
   TARGET_SHELL=$(command -v zsh || true)
 else
   TARGET_SHELL=$(command -v fish || true)
 fi
 
-if [ -n "$TARGET_SHELL" ] && [ "$SHELL" != "$TARGET_SHELL" ]; then
+if [ "$TARGET_SHELL" = "none" ]; then
+  echo "Leaving default login shell as $SHELL (DOTFILES_SHELL=none)."
+elif [ -n "$TARGET_SHELL" ] && [ "$SHELL" != "$TARGET_SHELL" ]; then
   echo "Setting $TARGET_SHELL as the default shell..."
   sudo chsh -s "$TARGET_SHELL" "$(whoami)" || chsh -s "$TARGET_SHELL" || true
 fi

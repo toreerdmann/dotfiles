@@ -36,3 +36,5 @@ if status is-interactive
     and type -q mise
     mise activate fish | source
 end
+
+set -gx LS_COLORS "$LS_COLORS:ow=01;34"
