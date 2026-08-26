@@ -37,4 +37,5 @@ if status is-interactive
     mise activate fish | source
 end
 
-set -gx LS_COLORS "$LS_COLORS:ow=01;34"
+# GNU ls paints other-writable dirs blue-on-green, which is unreadable
+set -gx LS_COLORS "$LS_COLORS:ow=01;34:tw=01;34"

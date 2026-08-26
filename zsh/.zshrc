@@ -90,6 +90,13 @@ fi
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 bindkey '^ ' autosuggest-accept
 
+# GNU ls paints other-writable directories blue-on-green (ow=34;42), which is
+# unreadable -- and in a Codespace almost every directory is other-writable.
+# Override ow and tw (sticky + other-writable) with plain bold blue. Keys we
+# don't mention keep ls's built-in defaults.
+export LS_COLORS="${LS_COLORS:+$LS_COLORS:}ow=01;34:tw=01;34"
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
 # fzf-tab presentation
 zstyle ':fzf-tab:*' fzf-flags --height=40% --layout=reverse --border
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 --color=always $realpath 2>/dev/null || ls -1 $realpath'
