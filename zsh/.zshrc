@@ -70,9 +70,30 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+# zsh-syntax-highlighting must come last of the highlighting-related ones.
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
+
+# fzf-tab replaces zsh's completion menu with an fzf picker. It has to be
+# sourced after compinit, i.e. after oh-my-zsh.sh, and before any widget that
+# wraps the completion system.
+if [ -f "$ZSH_CUSTOM/plugins/fzf-tab/fzf-tab.plugin.zsh" ]; then
+	source "$ZSH_CUSTOM/plugins/fzf-tab/fzf-tab.plugin.zsh"
+elif [ -f "$ZSH/custom/plugins/fzf-tab/fzf-tab.plugin.zsh" ]; then
+	source "$ZSH/custom/plugins/fzf-tab/fzf-tab.plugin.zsh"
+fi
+
+# fish-like autosuggestions: accept the whole suggestion with Ctrl-Space,
+# a single word with Alt-Right (fish's default is the right arrow, which zsh
+# already uses for cursor movement -- end-of-line accepts it there too).
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+bindkey '^ ' autosuggest-accept
+
+# fzf-tab presentation
+zstyle ':fzf-tab:*' fzf-flags --height=40% --layout=reverse --border
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 --color=always $realpath 2>/dev/null || ls -1 $realpath'
+zstyle ':completion:*' menu no
 
 # User configuration
 
@@ -118,8 +139,6 @@ function nvimq() {
 #alias quarto="~/quarto-cli/package/dist/bin/quarto"
 #eval "$(nodenv init -)"
 
-# setup fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Activate mise-en-place
 if [ -d "$HOME/.local/bin" ]; then
@@ -134,6 +153,17 @@ fi
 if command -v mise &> /dev/null; then
 	eval "$(mise activate zsh)"
 fi
+
+# setup fzf: Ctrl-R history search, Ctrl-T file picker, Alt-C cd.
+# `fzf --zsh` (fzf >= 0.48) is preferred; ~/.fzf.zsh is the older installer.
+if command -v fzf &> /dev/null && fzf --zsh &> /dev/null; then
+	source <(fzf --zsh)
+elif [ -f ~/.fzf.zsh ]; then
+	source ~/.fzf.zsh
+fi
+
+# On remote sessions (Codespaces et al) hand over to tmux right away
+[ -f ~/.config/shell/remote-session.sh ] && source ~/.config/shell/remote-session.sh
 
 # Load local overrides
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local

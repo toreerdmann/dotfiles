@@ -6,6 +6,7 @@ lazygit = "latest"
 tree-sitter = "latest"
 fd = "latest"
 gh = "latest"
+fzf = "latest"
 
 
 
