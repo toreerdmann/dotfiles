@@ -1,2 +1,10 @@
 .env*
 tmux/.tmux/plugins/*
+
+# ipython runtime state (history db, generated profiles)
+ipython/.ipython/profile_*/history.sqlite
+ipython/.ipython/profile_*/db/
+ipython/.ipython/profile_*/security/
+ipython/.ipython/profile_*/log/
+ipython/.ipython/profile_*/pid/
+ipython/.ipython/profile_*/static/

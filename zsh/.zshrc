@@ -73,6 +73,13 @@ ZSH_THEME="robbyrussell"
 # zsh-syntax-highlighting must come last of the highlighting-related ones.
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
+# Autosuggestion settings must be set before the plugin is sourced -- it wraps
+# the accept/partial-accept widgets at load time.
+# Accepting works like fish out of the box: Right-arrow or Ctrl-F takes the
+# whole suggestion, Alt-F / Alt-Right takes one word. (Don't bind Ctrl-Space
+# here -- that's the tmux prefix, so tmux eats it before zsh sees it.)
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
 source $ZSH/oh-my-zsh.sh
 
 # fzf-tab replaces zsh's completion menu with an fzf picker. It has to be
@@ -84,11 +91,27 @@ elif [ -f "$ZSH/custom/plugins/fzf-tab/fzf-tab.plugin.zsh" ]; then
 	source "$ZSH/custom/plugins/fzf-tab/fzf-tab.plugin.zsh"
 fi
 
-# fish-like autosuggestions: accept the whole suggestion with Ctrl-Space,
-# a single word with Alt-Right (fish's default is the right arrow, which zsh
-# already uses for cursor movement -- end-of-line accepts it there too).
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-bindkey '^ ' autosuggest-accept
+# Accept the whole autosuggestion with Ctrl-Y. (This replaces the default
+# emacs `yank`. Ctrl-Space would collide with the tmux prefix.) Right-arrow
+# and Ctrl-F still accept it too, Alt-F accepts a single word.
+bindkey '^Y' autosuggest-accept
+bindkey -M viins '^Y' autosuggest-accept
+
+# Edit the current command line in an editor -- the sane way to fix up a long
+# or multi-line command. Ctrl-X Ctrl-E in the default emacs keymap, and `v` in
+# vi command mode for when vi keys are on.
+# Deliberately vim (or vi), not $EDITOR: this pops up constantly for a
+# one-command buffer, and nvim's plugin loading makes that startup noticeable.
+# $EDITOR/$VISUAL stay on nvim for git commits and friends.
+autoload -Uz edit-command-line
+CMDLINE_EDITOR=${commands[vim]:-${commands[vi]:-${EDITOR:-vi}}}
+edit-command-line-fast() {
+	local VISUAL=$CMDLINE_EDITOR EDITOR=$CMDLINE_EDITOR
+	edit-command-line
+}
+zle -N edit-command-line-fast
+bindkey '^X^E' edit-command-line-fast
+bindkey -M vicmd 'v' edit-command-line-fast
 
 # GNU ls paints other-writable directories blue-on-green (ow=34;42), which is
 # unreadable -- and in a Codespace almost every directory is other-writable.
