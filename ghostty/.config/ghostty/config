@@ -49,3 +49,6 @@ font-family = Iosevka
 clipboard-read = allow
 clipboard-write = allow
 copy-on-select = clipboard
+
+bell-action = sound,system-notification
+

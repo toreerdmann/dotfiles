@@ -131,8 +131,11 @@ if [ -d "$HOME/.local/share/mise/shims" ]; then
   export PATH="$HOME/.local/share/mise/shims:$PATH"
 fi
 if command -v tmux &> /dev/null; then
-  if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+  # Test for the tpm script itself, not just the directory: a failed clone
+  # leaves an empty dir behind, which a -d test happily accepts forever.
+  if [ ! -f "$HOME/.tmux/plugins/tpm/tpm" ]; then
     echo "Installing tpm..."
+    rm -rf "$HOME/.tmux/plugins/tpm"
     git clone --depth 1 --quiet https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm" || true
   fi
   if [ -x "$HOME/.tmux/plugins/tpm/bin/install_plugins" ]; then
