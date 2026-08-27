@@ -82,15 +82,6 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 source $ZSH/oh-my-zsh.sh
 
-# fzf-tab replaces zsh's completion menu with an fzf picker. It has to be
-# sourced after compinit, i.e. after oh-my-zsh.sh, and before any widget that
-# wraps the completion system.
-if [ -f "$ZSH_CUSTOM/plugins/fzf-tab/fzf-tab.plugin.zsh" ]; then
-	source "$ZSH_CUSTOM/plugins/fzf-tab/fzf-tab.plugin.zsh"
-elif [ -f "$ZSH/custom/plugins/fzf-tab/fzf-tab.plugin.zsh" ]; then
-	source "$ZSH/custom/plugins/fzf-tab/fzf-tab.plugin.zsh"
-fi
-
 # Accept the whole autosuggestion with Ctrl-Y. (This replaces the default
 # emacs `yank`. Ctrl-Space would collide with the tmux prefix.) Right-arrow
 # and Ctrl-F still accept it too, Alt-F accepts a single word.
@@ -120,10 +111,10 @@ bindkey -M vicmd 'v' edit-command-line-fast
 export LS_COLORS="${LS_COLORS:+$LS_COLORS:}ow=01;34:tw=01;34"
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-# fzf-tab presentation
-zstyle ':fzf-tab:*' fzf-flags --height=40% --layout=reverse --border
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 --color=always $realpath 2>/dev/null || ls -1 $realpath'
-zstyle ':completion:*' menu no
+# TAB uses zsh's own completion menu: first TAB completes the common prefix,
+# further TABs walk an interactive, arrow-navigable menu. (fzf stays on Ctrl-R
+# / Ctrl-T / Alt-C -- it deliberately does not take over completion.)
+zstyle ':completion:*' menu select
 
 # User configuration
 

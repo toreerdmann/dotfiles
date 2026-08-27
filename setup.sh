@@ -158,8 +158,7 @@ if command -v zsh &> /dev/null; then
   mkdir -p "$ZSH_CUSTOM_DIR/plugins"
   for repo in \
     "https://github.com/zsh-users/zsh-autosuggestions zsh-autosuggestions" \
-    "https://github.com/zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting" \
-    "https://github.com/Aloxaf/fzf-tab fzf-tab"; do
+    "https://github.com/zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting"; do
     set -- $repo
     url=$1
     name=$2
