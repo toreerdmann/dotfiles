@@ -25,12 +25,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.scd",
   callback = function()
     -- Disable diagnostics for the buffer
-    vim.diagnostic.disable()
-    -- Optionally, detach LSP clients if needed
-    local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
-    for _, client in ipairs(clients) do
-      vim.lsp.buf_detach_client(vim.api.nvim_get_current_buf(), client.id)
-    end
+    -- vim.diagnostic.disable()
+    -- -- Optionally, detach LSP clients if needed
+    -- local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+    -- for _, client in ipairs(clients) do
+    --   vim.lsp.buf_detach_client(vim.api.nvim_get_current_buf(), client.id)
+    -- end
   end,
 })
 
