@@ -11,7 +11,9 @@ if status is-interactive
     safe_add_path /opt/homebrew/bin
 end
 
-set TERM xterm-256color
+if not set -q TERM; or test "$TERM" = "dumb"
+    set -gx TERM xterm-256color
+end
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
