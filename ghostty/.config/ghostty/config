@@ -45,7 +45,7 @@ theme = dark:TokyoNight,light:TokyoNight Day
 #theme = dark: Builtin Solarized Dark, light: Builtin Solarized Light
 cursor-click-to-move = true
 font-family = Iosevka
-command = /usr/bin/env -u LD_LIBRARY_PATH -u LD_PRELOAD fish
+# command = /usr/bin/env -u LD_LIBRARY_PATH -u LD_PRELOAD fish
 
 clipboard-read = allow
 clipboard-write = allow
