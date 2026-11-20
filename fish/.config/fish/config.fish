@@ -41,3 +41,8 @@ end
 
 # GNU ls paints other-writable dirs blue-on-green, which is unreadable
 set -gx LS_COLORS "$LS_COLORS:ow=01;34:tw=01;34"
+
+# Source dynamic Base16 theme variables if available
+if test -f "$HOME/.config/theme/base16.fish"
+    source "$HOME/.config/theme/base16.fish"
+end

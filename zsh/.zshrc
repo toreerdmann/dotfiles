@@ -190,3 +190,6 @@ fi
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 
+
+# Source dynamic Base16 theme variables if available
+[ -f "$HOME/.config/theme/base16.sh" ] && source "$HOME/.config/theme/base16.sh"

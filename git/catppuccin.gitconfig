@@ -39,3 +39,116 @@
         bold purple => syntax "#8839ef", \
         bold cyan => syntax "#179299", \
         bold yellow => syntax "#df8e1d"
+
+[delta "tokyonight-night"]
+    minus-style = syntax "#342331" "#442b3b"
+    minus-emph-style = syntax "#4d293f" "#f7768e"
+    line-numbers-minus-style = "#f7768e"
+    plus-style = syntax "#20343a" "#28444a"
+    plus-emph-style = syntax "#2e5248" "#9ece6a"
+    line-numbers-plus-style = "#9ece6a"
+    line-numbers-zero-style = "#565f89"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "tokyonight-day"]
+    minus-style = syntax "#f3dbde" "#eac2c7"
+    minus-emph-style = syntax "#dfa3ac" "#8c4351"
+    line-numbers-minus-style = "#8c4351"
+    plus-style = syntax "#ddecd2" "#cce3bb"
+    plus-emph-style = syntax "#afd393" "#485e30"
+    line-numbers-plus-style = "#485e30"
+    line-numbers-zero-style = "#8990b3"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "rose-pine"]
+    minus-style = syntax "#2a283e" "#373354"
+    minus-emph-style = syntax "#4e354f" "#eb6f92"
+    line-numbers-minus-style = "#eb6f92"
+    plus-style = syntax "#282a36" "#31424d"
+    plus-emph-style = syntax "#354f59" "#9ccfd8"
+    line-numbers-plus-style = "#9ccfd8"
+    line-numbers-zero-style = "#6e6a86"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "rose-pine-dawn"]
+    minus-style = syntax "#f4ede8" "#ebdcd5"
+    minus-emph-style = syntax "#e2c5bc" "#b4637a"
+    line-numbers-minus-style = "#b4637a"
+    plus-style = syntax "#edf3f2" "#dce9e8"
+    plus-emph-style = syntax "#bed9d7" "#56949f"
+    line-numbers-plus-style = "#56949f"
+    line-numbers-zero-style = "#9893a5"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "kanagawa-wave"]
+    minus-style = syntax "#2d2a3e" "#433c59"
+    minus-emph-style = syntax "#5e3845" "#c34043"
+    line-numbers-minus-style = "#c34043"
+    plus-style = syntax "#2b3328" "#394834"
+    plus-emph-style = syntax "#3f5636" "#76946a"
+    line-numbers-plus-style = "#76946a"
+    line-numbers-zero-style = "#727169"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "kanagawa-lotus"]
+    minus-style = syntax "#e8e0de" "#ded1ce"
+    minus-emph-style = syntax "#d3b8b5" "#c84053"
+    line-numbers-minus-style = "#c84053"
+    plus-style = syntax "#e1e5dd" "#cfd7ca"
+    plus-emph-style = syntax "#bcc9b3" "#6f894e"
+    line-numbers-plus-style = "#6f894e"
+    line-numbers-zero-style = "#8a8980"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "gruvbox-dark"]
+    syntax-theme = gruvbox-dark
+    line-numbers-minus-style = "#fb4934"
+    line-numbers-plus-style = "#b8bb26"
+    line-numbers-zero-style = "#928374"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "gruvbox-light"]
+    syntax-theme = gruvbox-light
+    line-numbers-minus-style = "#9d0006"
+    line-numbers-plus-style = "#79740e"
+    line-numbers-zero-style = "#928374"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "nord"]
+    syntax-theme = Nord
+    line-numbers-minus-style = "#bf616a"
+    line-numbers-plus-style = "#a3be8c"
+    line-numbers-zero-style = "#4c566a"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "nord-light"]
+    line-numbers-minus-style = "#bf616a"
+    line-numbers-plus-style = "#a3be8c"
+    line-numbers-zero-style = "#4c566a"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "solarized-dark"]
+    syntax-theme = Solarized (dark)
+    line-numbers-minus-style = "#dc322f"
+    line-numbers-plus-style = "#859900"
+    line-numbers-zero-style = "#586e75"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
+
+[delta "solarized-light"]
+    syntax-theme = Solarized (light)
+    line-numbers-minus-style = "#dc322f"
+    line-numbers-plus-style = "#859900"
+    line-numbers-zero-style = "#93a1a1"
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │"
